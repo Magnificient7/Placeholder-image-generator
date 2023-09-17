@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generator</title>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+    <section>
+        <div class="div1">
+            <div class="div2">
+                <h1>PlaceHolder Image Path Generator</h1>
+            </div>
+            <div class="parent">
+                <label for="imageSize">Image Size</label>
+                <select name="imageSlector" id="imageSize">
+                    <option value="150x50">Small (100x50)</option>
+                    <option value="200x200">Medium Square (200x200)</option>
+                    <option value="350x150">Medium (350x150)</option>
+                    <option value="400x400">Large Square (400x400)</option>
+                    <option value="650x350">Large (650x350)</option>
+                    <option value="800x600">X-Large (800x600)</option>
+                    <option value="1920x1080">Full HD (1920x1080)</option>
+                </select>
+                
+            </div>
+            <div class="parent">
+                <label for="textId">Text on Image</label>
+                <input type="text" name="enter-text" id="textId">
+                
+            </div>
+            <div class="parent">
+                <label for="backgroundColor">Color of Background</label>
+                <input type="color" name="backgroundColor" value="#98bc62" id="backgroundColor">
+               
+            </div>
+            <div class="parent">
+                <label for="backgroundTextColor">Color of Text</label>
+                <input type="color" name="backgroundColor" value="#2C5F2D"  id="backgroundTextColor ">
+            
+            </div>
+            <div class="container">
+                <img src="" alt="">
+                <br>
+                <label for="textarea"></label>
+                <textarea name="textarea" id="urlpath" cols="20" rows="2">Link will be availabe here</textarea>
+            </div>
+        </div>
+    </section>
+    <script>
+        const imageSize = document.querySelector("select");
+        const inputall = document.querySelectorAll("input");
+        let textarea = document.querySelector("textarea");
+        let img = document.querySelector("img");
+
+        let obj ={};
+        const addplus = (str)=>{
+            return str.split(" ").join("+");
+        }
+
+        const changeOccur = function(){
+
+            obj.imageSize = imageSize.value;
+            obj.bgcl = inputall[1].value;
+            obj.txtColor = inputall[2].value;
+            obj.txt = addplus(inputall[0].value);
+            let urlpath = `http://via.placeholder.com/${obj.imageSize}/${obj.bgcl.slice(1)}/${obj.txtColor.slice(1)}?text=${obj.txt}`
+            img.src = urlpath;
+            textarea.value = urlpath;
+
+            textarea.focus();
+            // textarea.select();
+
+            // copy the text code
+            navigator.clipboard.writeText(textarea.value)
+            .then(() => {
+                console.log('Text copied to clipboard');
+            })
+            .catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        }
+        inputall.forEach((curopt)=>curopt.addEventListener("change",changeOccur));
+        imageSize.addEventListener("change",changeOccur);
+
+
+    </script>
+
+</body>
+</html>
